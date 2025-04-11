@@ -54,16 +54,17 @@ func Seach_data(table *arrow.Table, col_idx int, search_string string) ([]int, e
 	return res_rows, nil
 }
 
-func GetRows(table *arrow.Table, res_rows []int) ([][]string, error) {
+func GetRows(table *arrow.Table, res_rows []int) ([]map[string]string, error) {
 	cols_len := (*table).NumCols()
-	var rows [][]string
+	var rows []map[string]string
 	for i := 0; i < len(res_rows); i++ {
-		var row []string
+		row := make(map[string]string, 0)
 		for j := 0; j < int(cols_len); j++ {
 			col_data := (*table).Column(j).Data().Chunks()
+			col_name := (*table).Column(j).Name()
 			for _, data := range col_data {
 				str_data := ValueToString(&data, i)
-				row = append(row, str_data)
+				row[col_name] = str_data
 			}
 		}
 		rows = append(rows, row)

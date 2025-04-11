@@ -18,15 +18,16 @@ func main() {
 		fmt.Println("Error:", err)
 	}
 
-	// iterating over the objects
+	// iterating over the file objects
 	for key, val := range temp {
 		file, err := search.CreateNewFile(filepath.Join(parquet_folder, key))
 		if err != nil {
 			fmt.Println("Error:", err)
 		}
-		// iterating over the list
+		// iterating over the list of query objects
+		fmt.Println(file.Filename)
 		for _, v := range val {
-			// iterating over the objects
+			// iterating over the query object
 			for k1, v1 := range v {
 				// fmt.Println("\t", k1, v1)
 				col := k1
@@ -38,9 +39,22 @@ func main() {
 					fmt.Println("Error:", err)
 				}
 
-				fmt.Println(key, len(res_row_idxs))
+				fmt.Println(len(res_row_idxs))
 
-				// search.GetRows(file.Table, res_row_idxs)
+				rows, err := search.GetRows(file.Table, res_row_idxs)
+				if err != nil {
+					fmt.Println("Error:", err)
+				}
+
+				// fmt.Println(rows)
+
+				json_out_data, err := json.Marshal(rows)
+				if err != nil {
+					fmt.Println("Error:", err)
+				}
+
+				fmt.Println(string(json_out_data))
+
 			}
 		}
 	}

@@ -5,8 +5,8 @@ import (
 	"parquet_search/parser"
 	"strings"
 
-	"github.com/apache/arrow/go/v12/arrow"
-	"github.com/apache/arrow/go/v12/arrow/array"
+	"github.com/apache/arrow/go/v18/arrow"
+	"github.com/apache/arrow/go/v18/arrow/array"
 )
 
 type File struct {
@@ -36,12 +36,12 @@ func CreateNewFile(filename string) (*File, error) {
 	return &file, nil
 }
 
-func Seach_data(table *arrow.Table, col_idx int, search_string string) ([]int, error) {
+func Search_data(table *arrow.Table, col_idx int, search_string string) ([]int, error) {
 	res_rows := make([]int, 0)
 
 	rows_len := (*table).NumRows()
+	col_data := (*table).Column(col_idx).Data().Chunks()
 	for i := 0; i < int(rows_len); i++ {
-		col_data := (*table).Column(col_idx).Data().Chunks()
 		// fmt.Printf("\n%v", i)
 		for _, data := range col_data {
 			str_data := ValueToString(&data, i)

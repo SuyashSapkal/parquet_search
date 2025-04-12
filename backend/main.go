@@ -34,7 +34,7 @@ func main() {
 				search_string := v1
 
 				col_idx := file.Columns[col]
-				res_row_idxs, err := search.Seach_data(file.Table, col_idx, search_string)
+				res_row_idxs, err := search.Search_data(file.Table, col_idx, search_string)
 				if err != nil {
 					fmt.Println("Error:", err)
 				}

@@ -63,7 +63,7 @@ func GetRows(table *arrow.Table, res_rows []int) ([]map[string]string, error) {
 			col_data := (*table).Column(j).Data().Chunks()
 			col_name := (*table).Column(j).Name()
 			for _, data := range col_data {
-				str_data := ValueToString(&data, i)
+				str_data := ValueToString(&data, res_rows[i])
 				row[col_name] = str_data
 			}
 		}

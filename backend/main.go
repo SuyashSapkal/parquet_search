@@ -25,7 +25,7 @@ func main() {
 			fmt.Println("Error:", err)
 		}
 		// iterating over the list of query objects
-		fmt.Println(file.Filename)
+		fmt.Println(file.Filepath)
 		for _, v := range val {
 			// iterating over the query object
 			for k1, v1 := range v {

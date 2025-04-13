@@ -11,9 +11,9 @@ import (
 	"github.com/apache/arrow/go/v18/parquet/pqarrow"
 )
 
-func ParquetParser(filename string) (arrow.Table, error) {
+func ParquetParser(filepath string) (arrow.Table, error) {
 
-	f, err := os.Open(filename)
+	f, err := os.Open(filepath)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 		return nil, err

@@ -10,13 +10,13 @@ import (
 )
 
 type File struct {
-	Filename string
+	Filepath string
 	Table    *arrow.Table
 	Columns  map[string]int
 }
 
-func CreateNewFile(filename string) (*File, error) {
-	table, err := parser.ParquetParser(filename)
+func CreateNewFile(filepath string) (*File, error) {
+	table, err := parser.ParquetParser(filepath)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func CreateNewFile(filename string) (*File, error) {
 	}
 
 	file := File{
-		Filename: filename,
+		Filepath: filepath,
 		Table:    &table,
 		Columns:  cols,
 	}

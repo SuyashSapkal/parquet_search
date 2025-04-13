@@ -6,13 +6,14 @@ import (
 	"testing"
 )
 
-const filename = `D:\temp_project\go\parquet_search\parquet_files\File 1`
+const filepath = `D:\temp_project\go\parquet_search\parquet_files\File 1`
 const col_idx = 12
 const searchStringBenchmark = "ProducerStateManager"
+const resultant_search_rows = 125
 
 func TestSearchData(t *testing.T) {
 
-	table, err := parser.ParquetParser(filename)
+	table, err := parser.ParquetParser(filepath)
 	if err != nil {
 		t.Fatalf("Parsing file error: %v", err)
 	}
@@ -24,11 +25,15 @@ func TestSearchData(t *testing.T) {
 	}
 	res_len := len(res)
 	fmt.Println(res_len)
+
+	if resultant_search_rows != res_len {
+		t.Fatalf("Search results count not matching")
+	}
 }
 
 func BenchmarkSearchData(b *testing.B) {
 
-	table, err := parser.ParquetParser(filename)
+	table, err := parser.ParquetParser(filepath)
 	if err != nil {
 		b.Fatalf("Parsing file error: %v", err)
 	}
@@ -45,7 +50,7 @@ func BenchmarkSearchData(b *testing.B) {
 }
 
 func BenchmarkGetRows(b *testing.B) {
-	table, err := parser.ParquetParser(filename)
+	table, err := parser.ParquetParser(filepath)
 	if err != nil {
 		b.Fatalf("Parsing file error: %v", err)
 	}

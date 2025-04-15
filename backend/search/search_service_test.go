@@ -79,3 +79,41 @@ func TestQueryData(t *testing.T) {
 	}
 
 }
+
+func TestRemoveFiles(t *testing.T) {
+	files, err := os.ReadDir(parquet_folder)
+	if err != nil {
+		t.Fatalf("Error getting the files from directory = %v\n", parquet_folder)
+	}
+
+	files_list := make([]string, 0)
+	for _, entry := range files {
+		filepath := filepath.Join(parquet_folder, entry.Name())
+		files_list = append(files_list, filepath)
+	}
+
+	files_data, err := search.LoadingFiles(files_list)
+	if err != nil {
+		t.Fatalf("error parsing all the files\n")
+	}
+
+	remove_files := []string{
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 14",
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 4",
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 9",
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 7",
+	}
+
+	search.RemoveFiles(&files_data, remove_files)
+	existing_files := make([]string, 0)
+	for _, file := range remove_files {
+		_, exists := files_data[file]
+		if exists {
+			existing_files = append(existing_files, file)
+		}
+	}
+
+	if len(existing_files) > 0 {
+		t.Fatalf("Below files are not deleted:\n%v", existing_files)
+	}
+}

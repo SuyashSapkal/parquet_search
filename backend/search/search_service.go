@@ -140,3 +140,20 @@ func QueryData(parsed_file_data *(map[string]*File), parquet_folder string, json
 
 	return string(output_json_string), nil
 }
+
+func RemoveFiles(filesData *(map[string]*File), filesToRemove []string) {
+	for _, filepath := range filesToRemove {
+		file, exists := (*filesData)[filepath]
+		if !exists {
+			continue
+		}
+
+		(*filesData)[filepath].Filepath = ""
+		(*filesData)[filepath].Columns = nil
+
+		if file != nil {
+			(*((*file).Table)).Release()
+		}
+		delete(*filesData, filepath)
+	}
+}

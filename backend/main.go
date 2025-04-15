@@ -36,14 +36,42 @@ func main() {
 		fmt.Printf("error parsing all the files")
 	}
 
-	res, err := search.QueryData(&files_data, parquet_folder, json_str)
-	if err != nil {
-		fmt.Println(err)
+	remove_files := []string{
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 14",
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 4",
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 9",
+		"D:\\temp_project\\go\\parquet_search\\parquet_files\\File 7",
 	}
 
-	res = ""
+	fmt.Println("file data before deleting")
+	for file, _ := range files_data {
+		fmt.Println("file, val: \t", file)
+	}
 
-	fmt.Println(res)
+	search.RemoveFiles(&files_data, remove_files)
+	// for _, filepath := range remove_files {
+	// 	data := files_data[filepath]
+	// 	fmt.Println("before", *data)
+	// 	(*data).Filepath = ""
+	// 	(*((*data).Table)).Release()
+	// 	(*data).Columns = nil
+	// 	fmt.Println("after", *data)
+	// 	delete(files_data, filepath)
+	// }
+
+	fmt.Println("file data after deleting")
+	for file, _ := range files_data {
+		fmt.Println("file, val: \t", file)
+	}
+
+	// res, err := search.QueryData(&files_data, parquet_folder, json_str)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	// res = ""
+
+	// fmt.Println(res)
 
 	// // iterating over the file objects
 	// for key, val := range temp {
